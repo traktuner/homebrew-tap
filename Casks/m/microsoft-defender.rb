@@ -1,8 +1,8 @@
 cask "microsoft-defender" do
-  version "101.26022.0020"
-  sha256 "8d7a33f79ad00e8fdc2d75b1f826f7e75327c0c9cf72b0955d254ddb6b878b21"
+  version "101.26062.0011"
+  sha256 "9a3a8875f9af41791d09e0c37244dda10225c51eecbe7e0c34f2602a8316368b"
 
-  url "https://officecdnmac.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Defender_#{version}_Individuals_Installer.pkg"
+  url "https://res.public.onecdn.static.microsoft/mro1cdnstorage/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Defender_#{version}_Individuals_Installer.pkg"
   name "Microsoft Defender for Endpoint"
   desc "Antivirus software"
   homepage "https://www.microsoft.com/security/business/endpoint-security/microsoft-defender-endpoint"
@@ -15,7 +15,7 @@ cask "microsoft-defender" do
 
   auto_updates true
   depends_on cask: "microsoft-auto-update"
-  depends_on macos: :big_sur
+  depends_on macos: :sonoma
 
   pkg "Microsoft_Defender_#{version}_Individuals_Installer.pkg",
       choices: [
@@ -26,10 +26,11 @@ cask "microsoft-defender" do
         },
       ]
 
-  postflight do
-    system_command "/bin/bash",
-                   args: ["-c", "~/Library/'Mobile Documents'/com~apple~CloudDocs/config/microsoft-defender/" \
-                                "MicrosoftDefenderATPOnboardingMacOs.sh"], sudo: true
+  postflight_steps do
+    run "/bin/bash",
+        args: ["-c", "~/Library/'Mobile Documents'/com~apple~CloudDocs/config/microsoft-defender/" \
+                     "MicrosoftDefenderATPOnboardingMacOs.sh"],
+        sudo: true, must_succeed: true
   end
 
   uninstall quit:    "com.microsoft.autoupdate2",
