@@ -16,12 +16,14 @@ cask "urbackup-client" do
 
   pkg "UrBackup Client #{version}.pkg"
 
-  postflight do
-    system_command "/usr/bin/sudo", args: ["-u", "root", "touch", "/Library/Application Support/UrBackup Client/var/urbackup/.installed_by_brew"]
+  postflight_steps do
+    run "/usr/bin/touch",
+        args: ["/Library/Application Support/UrBackup Client/var/urbackup/.installed_by_brew"],
+        sudo: true, must_succeed: true
   end
 
-  uninstall quit: "org.urbackup.client",
-            script: {
+  uninstall quit:    "org.urbackup.client",
+            script:  {
               executable: "/Library/Application Support/UrBackup Client/uninstall.sh",
               sudo:       true,
             },
@@ -29,8 +31,8 @@ cask "urbackup-client" do
 
   zap trash: [
     "/Library/Application Support/UrBackup Client",
-    "/Library/LaunchDaemons/org.urbackup.client.plist",
     "/Library/LaunchAgents/org.urbackup.client.plist",
+    "/Library/LaunchDaemons/org.urbackup.client.plist",
     "~/Library/Application Support/UrBackup Client",
     "~/Library/Logs/UrBackup Client",
   ]

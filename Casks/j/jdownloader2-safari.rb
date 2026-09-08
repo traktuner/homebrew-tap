@@ -19,28 +19,46 @@ cask "jdownloader2-safari" do
   # CI ships an ad-hoc signed app. Re-sign it locally with this Mac's
   # "Apple Development" identity (auto-detected) so Safari loads the extension
   # without "Allow Unsigned Extensions". Entitlements/flags are preserved.
-  postflight do
-    app_path = "#{appdir}/MyJDownloader.app"
-    appex = "#{app_path}/Contents/PlugIns/MyJDownloader Extension.appex"
-
-    identity = `/usr/bin/security find-identity -v -p codesigning`[/Apple Development: [^"]+/]
-    odie "No 'Apple Development' code-signing identity found in your keychain." if identity.to_s.strip.empty?
-
-    [appex, app_path].each do |target|
-      system_command "/usr/bin/codesign",
-                     args: ["--force",
-                            "--preserve-metadata=identifier,entitlements,requirements,flags,runtime",
-                            "--sign", identity, target]
-    end
+  #
+  # These steps run inside the Homebrew cask sandbox, where $HOME points to a
+  # temp dir and keychain reads are denied by default. Re-derive the real home
+  # from the passwd entry (not $HOME) and re-enable keychain reads via
+  # writable_paths. Sign by the identity's SHA-1 hash (second column of
+  # `security find-identity`) rather than by name, because multiple
+  # development identities can share one display name.
+  postflight_steps do
+    run "/bin/bash",
+        args: ["-c", <<~'BASH'],
+          set -euo pipefail
+          APP="{{appdir}}/MyJDownloader.app"
+          APPEX="$APP/Contents/PlugIns/MyJDownloader Extension.appex"
+          REAL_HOME="$(eval echo "~$(id -un)")"
+          export HOME="$REAL_HOME"
+          OUT="$(/usr/bin/security find-identity -v -p codesigning)"
+          # Skip revoked identities: `security find-identity -v` annotates them
+          # with "(CSSMERR_TP_CERT_REVOKED)" and codesign would fail with them.
+          HASH="$(echo "$OUT" | /usr/bin/awk '/Apple Development/ && !/CSSMERR/ { print $2; exit }')"
+          if [ -z "$HASH" ]; then
+            echo "No 'Apple Development' code-signing identity found in your keychain."
+            exit 1
+          fi
+          for TARGET in "$APPEX" "$APP"; do
+            /usr/bin/codesign --force \
+              --preserve-metadata=identifier,entitlements,requirements,flags,runtime \
+              --sign "$HASH" "$TARGET"
+          done
+        BASH
+        writable_paths: ["~/Library/Keychains"],
+        must_succeed: true, print_stdout: true
 
     # Homebrew quarantines the downloaded app; the locally re-signed (but not
     # notarized) app would be blocked by Gatekeeper. Clear the quarantine flag
     # now that it's signed with this Mac's own trusted Development identity.
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", app_path]
+    run "/usr/bin/xattr", args:         ["-dr", "com.apple.quarantine", "{{appdir}}/MyJDownloader.app"],
+                          must_succeed: true
 
     # Launch once so Safari registers the extension.
-    system_command "/usr/bin/open", args: [app_path]
+    run "/usr/bin/open", args: ["{{appdir}}/MyJDownloader.app"], must_succeed: true
   end
 
   uninstall quit: "org.myjdownloader.MyJDownloader"
