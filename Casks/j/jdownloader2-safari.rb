@@ -1,6 +1,6 @@
 cask "jdownloader2-safari" do
-  version "1.0.2"
-  sha256 "e4595027e090b0691d7c0fd2196a944642fe51b6b895261517749abf0bd1de60"
+  version "1.1.0"
+  sha256 "ea46e3aad98e86ec583e9f41a4783da9f8ca2f38dcc0ee4fb8bd6e8a7c536379"
 
   url "https://github.com/traktuner/jdownloader2-safari-extension/releases/download/v#{version}/MyJDownloader.zip"
   name "MyJDownloader Safari Extension"
@@ -16,31 +16,25 @@ cask "jdownloader2-safari" do
 
   app "MyJDownloader.app"
 
-  # CI ships an ad-hoc signed app. Re-sign it locally with this Mac's
-  # "Apple Development" identity (auto-detected) so Safari loads the extension
-  # without "Allow Unsigned Extensions". Entitlements/flags are preserved.
-  postflight do
-    app_path = "#{appdir}/MyJDownloader.app"
-    appex = "#{app_path}/Contents/PlugIns/MyJDownloader Extension.appex"
-
-    identity = `/usr/bin/security find-identity -v -p codesigning`[/Apple Development: [^"]+/]
-    odie "No 'Apple Development' code-signing identity found in your keychain." if identity.to_s.strip.empty?
-
-    [appex, app_path].each do |target|
-      system_command "/usr/bin/codesign",
-                     args: ["--force",
-                            "--preserve-metadata=identifier,entitlements,requirements,flags,runtime",
-                            "--sign", identity, target]
-    end
-
-    # Homebrew quarantines the downloaded app; the locally re-signed (but not
-    # notarized) app would be blocked by Gatekeeper. Clear the quarantine flag
-    # now that it's signed with this Mac's own trusted Development identity.
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", app_path]
-
-    # Launch once so Safari registers the extension.
-    system_command "/usr/bin/open", args: [app_path]
+  # Personal-use installation must also work on a fresh Mac with no Apple
+  # account or signing certificate. Never auto-select a development identity:
+  # a revoked certificate can turn this app into a macOS malware-block alert.
+  postflight_steps do
+    # Check the checksum-pinned bundle before changing its signature.
+    run "/usr/bin/codesign",
+        args: ["--verify", "--deep", "--strict", "{{appdir}}/MyJDownloader.app"]
+    run "/usr/bin/codesign",
+        args: ["--force", "--preserve-metadata=identifier,entitlements,flags,runtime", "--sign", "-",
+               "{{appdir}}/MyJDownloader.app/Contents/PlugIns/MyJDownloader Extension.appex"]
+    run "/usr/bin/codesign",
+        args: ["--force", "--preserve-metadata=identifier,entitlements,flags,runtime", "--sign", "-",
+               "{{appdir}}/MyJDownloader.app"]
+    run "/usr/bin/codesign",
+        args: ["--verify", "--deep", "--strict", "{{appdir}}/MyJDownloader.app"]
+    # Personal-use exception for this one locally signed app. Global
+    # Gatekeeper and Safari policy remain under the user's control.
+    run "/usr/bin/xattr",
+        args: ["-dr", "com.apple.quarantine", "{{appdir}}/MyJDownloader.app"]
   end
 
   uninstall quit: "org.myjdownloader.MyJDownloader"
@@ -51,4 +45,13 @@ cask "jdownloader2-safari" do
     "~/Library/Containers/org.myjdownloader.MyJDownloader",
     "~/Library/Containers/org.myjdownloader.MyJDownloader.Extension",
   ]
+
+  caveats <<~EOS
+    This personal build needs no Apple account or developer subscription.
+    Open MyJDownloader once. In Safari Settings > Advanced, enable features
+    for web developers, then in Developer enable Allow unsigned extensions.
+    Enable MyJDownloader in Safari Settings > Extensions and allow the sites
+    where you use it. Safari may require unsigned extensions to be allowed
+    again after quitting. The app and extension have separate MyJD logins.
+  EOS
 end
