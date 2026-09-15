@@ -1,6 +1,6 @@
 cask "network-share-mounter" do
-  version "4.1.4"
-  sha256 "f200d13783fb1f9759f61f9f54cda8889fe5d50879d8ea7850c9e007131cab7e"
+  version "4.1.5"
+  sha256 "2ac7b7139a504d14211d6cb64c2f346bc668d42b0f7045a4085220100db462b6"
 
   url "https://gitlab.rrze.fau.de/api/v4/projects/506/packages/generic/networksharemounter/release-#{version}/NetworkShareMounter-#{version}.dmg"
   name "Network Share Mounter"
@@ -13,7 +13,7 @@ cask "network-share-mounter" do
   end
 
   auto_updates true
-  depends_on macos: :big_sur
+  depends_on macos: :ventura
 
   app "Network Share Mounter.app"
 
