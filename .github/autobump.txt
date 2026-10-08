@@ -4,3 +4,10 @@ network-share-mounter
 refx-cloud
 urbackup-client
 jdownloader2-safari
+designcraft
+effectcraft
+filmcraft
+lightcraft
+pdfcraft
+photocraft
+vectorcraft
