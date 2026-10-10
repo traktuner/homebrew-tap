@@ -1,6 +1,6 @@
 cask "effectcraft" do
-  version "0.4.0"
-  sha256 "276fa037741900809ad4c9ed82e70a02e810e4e92a5b20976fb2dac6d694e71a"
+  version "0.6.0"
+  sha256 "2b8e99b7f1e497ed0f7273cf21084d23858500734e9fb755e869a5b0854975ca"
 
   url "https://github.com/storytold/effectcraft/releases/download/v#{version}/effectcraft-#{version}-macos-universal.dmg"
   name "EffectCraft"
