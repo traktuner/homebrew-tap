@@ -1,6 +1,6 @@
 cask "designcraft" do
-  version "0.2.1"
-  sha256 "0fc01e43e20b963d0493b0978fedc0dc42084c00bd47b37e4b7b67e983789612"
+  version "0.4.0"
+  sha256 "6c46a54bf0b990fcfa81ea3849bad5b673a53ede06a9580cc3fc1cdfe82da5ae"
 
   url "https://github.com/storytold/designcraft/releases/download/v#{version}/designcraft-#{version}-macos-universal.dmg"
   name "DesignCraft"
