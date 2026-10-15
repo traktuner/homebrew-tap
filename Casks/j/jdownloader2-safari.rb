@@ -1,6 +1,6 @@
 cask "jdownloader2-safari" do
-  version "1.2.7"
-  sha256 "8675413216b8707c0790c5e5e1804b0fafac8d5485d1e251c74091fdd98a098e"
+  version "1.2.8"
+  sha256 "33780484a94d2a261614ada32edd866ffee910e443329f0609ecdee6cbce2bf4"
 
   url "https://github.com/traktuner/jdownloader2-safari-extension/releases/download/v#{version}/MyJDownloader.zip"
   name "MyJDownloader Safari Extension"
