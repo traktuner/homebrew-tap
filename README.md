@@ -4,13 +4,13 @@ Homebrew tap for traktuner
 
 ## Craft apps
 
-Install all seven Craft apps with one command:
+Install all fourteen Craft apps with one command:
 
 ```sh
 brew install --cask traktuner/tap/craft-apps
 ```
 
-The bundle installs PhotoCraft, VectorCraft, FilmCraft, LightCraft, PdfCraft, EffectCraft, and DesignCraft. PdfCraft's current release installs `PrintCraft.app`.
+The bundle installs the ArtCraft Launcher, PhotoCraft, VectorCraft, FilmCraft, LightCraft, PdfCraft, EffectCraft, DesignCraft, FigCraft, WordCraft, SoundCraft, DeckCraft, CADCraft, and GridCraft. PdfCraft's current release installs `PrintCraft.app`.
 
 Homebrew installs missing apps through their individual Casks. It skips apps that are already installed. Each app retains its GitHub release download, livecheck, and `auto_updates` setting. The existing autobump workflow continues to update the component Casks.
 

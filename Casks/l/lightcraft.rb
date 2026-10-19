@@ -1,6 +1,6 @@
 cask "lightcraft" do
-  version "0.4.0"
-  sha256 "c74e45230a54bce09bf86cecee7e22f3374ee46f8ba779ddda3f4ee7910d3f5c"
+  version "0.9.1"
+  sha256 "5e3fde7755d0fd0fa91114fc58ef51093a81b6177dcd9aece0142b4ec10e1c5a"
 
   url "https://github.com/storytold/lightcraft/releases/download/v#{version}/lightcraft-#{version}-macos-universal.dmg"
   name "LightCraft"
@@ -10,7 +10,6 @@ cask "lightcraft" do
   livecheck do
     url :url
     regex(/^v?(\d+(?:\.\d+)+)$/i)
-    strategy :github_latest
   end
 
   auto_updates true
@@ -19,4 +18,11 @@ cask "lightcraft" do
   app "LightCraft.app"
 
   uninstall quit: "ai.storyteller.lightcraft"
+
+  zap trash: [
+    "~/Library/Application Support/LightCraft",
+    "~/Library/Caches/ai.storyteller.lightcraft",
+    "~/Library/Preferences/ai.storyteller.lightcraft.plist",
+    "~/Library/Saved Application State/ai.storyteller.lightcraft.savedState",
+  ]
 end

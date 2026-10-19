@@ -1,6 +1,6 @@
 cask "designcraft" do
-  version "0.4.0"
-  sha256 "6c46a54bf0b990fcfa81ea3849bad5b673a53ede06a9580cc3fc1cdfe82da5ae"
+  version "0.9.0"
+  sha256 "7fe7578040fb1b340b063d513b62cf7e53335274453327b287998221bb52768e"
 
   url "https://github.com/storytold/designcraft/releases/download/v#{version}/designcraft-#{version}-macos-universal.dmg"
   name "DesignCraft"
@@ -10,7 +10,6 @@ cask "designcraft" do
   livecheck do
     url :url
     regex(/^v?(\d+(?:\.\d+)+)$/i)
-    strategy :github_latest
   end
 
   auto_updates true
@@ -19,4 +18,11 @@ cask "designcraft" do
   app "DesignCraft.app"
 
   uninstall quit: "ai.storyteller.designcraft"
+
+  zap trash: [
+    "~/Library/Application Support/DesignCraft",
+    "~/Library/Caches/ai.storyteller.designcraft",
+    "~/Library/Preferences/ai.storyteller.designcraft.plist",
+    "~/Library/Saved Application State/ai.storyteller.designcraft.savedState",
+  ]
 end

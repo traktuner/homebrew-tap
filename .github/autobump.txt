@@ -11,3 +11,10 @@ lightcraft
 pdfcraft
 photocraft
 vectorcraft
+figcraft
+wordcraft
+soundcraft
+deckcraft
+cadcraft
+gridcraft
+artcraft
