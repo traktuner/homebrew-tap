@@ -1,6 +1,6 @@
 cask "effectcraft" do
-  version "0.6.0"
-  sha256 "2b8e99b7f1e497ed0f7273cf21084d23858500734e9fb755e869a5b0854975ca"
+  version "0.11.1"
+  sha256 "73471a98b510596bcca96c6c055665b36ebcf619d3937c3e246d5249ad046cf4"
 
   url "https://github.com/storytold/effectcraft/releases/download/v#{version}/effectcraft-#{version}-macos-universal.dmg"
   name "EffectCraft"
@@ -10,7 +10,6 @@ cask "effectcraft" do
   livecheck do
     url :url
     regex(/^v?(\d+(?:\.\d+)+)$/i)
-    strategy :github_latest
   end
 
   auto_updates true
@@ -19,4 +18,11 @@ cask "effectcraft" do
   app "EffectCraft.app"
 
   uninstall quit: "ai.storyteller.effectcraft"
+
+  zap trash: [
+    "~/Library/Application Support/EffectCraft",
+    "~/Library/Caches/ai.storyteller.effectcraft",
+    "~/Library/Preferences/ai.storyteller.effectcraft.plist",
+    "~/Library/Saved Application State/ai.storyteller.effectcraft.savedState",
+  ]
 end

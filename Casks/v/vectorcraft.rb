@@ -1,6 +1,6 @@
 cask "vectorcraft" do
-  version "0.7.0"
-  sha256 "c9976419f038c0ecec2da569a4afc1717c2ffdaf54c7ab40d26b0c7f066ffa9e"
+  version "0.13.1"
+  sha256 "b932c38927a007f30218c4ed404a5c48a3f41674d6e4c560a662c7ffdbdb706f"
 
   url "https://github.com/storytold/vectorcraft/releases/download/v#{version}/vectorcraft-#{version}-macos-universal.dmg"
   name "VectorCraft"
@@ -10,7 +10,6 @@ cask "vectorcraft" do
   livecheck do
     url :url
     regex(/^v?(\d+(?:\.\d+)+)$/i)
-    strategy :github_latest
   end
 
   auto_updates true
@@ -19,4 +18,11 @@ cask "vectorcraft" do
   app "VectorCraft.app"
 
   uninstall quit: "ai.storyteller.vectorcraft"
+
+  zap trash: [
+    "~/Library/Application Support/VectorCraft",
+    "~/Library/Caches/ai.storyteller.vectorcraft",
+    "~/Library/Preferences/ai.storyteller.vectorcraft.plist",
+    "~/Library/Saved Application State/ai.storyteller.vectorcraft.savedState",
+  ]
 end
