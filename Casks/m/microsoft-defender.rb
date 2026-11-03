@@ -1,6 +1,6 @@
 cask "microsoft-defender" do
-  version "101.26072.0017"
-  sha256 "7b6b8c7a0601acffb2fdc957c8ba4ecf2728dbfe57c45c001ba0450e1e8c19c8"
+  version "101.26092.0009"
+  sha256 "58448d6b845b23ee83881a92e8eaa5508c381371a6922066ef1c4b4a38829adf"
 
   url "https://res.public.onecdn.static.microsoft/mro1cdnstorage/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Defender_#{version}_Individuals_Installer.pkg"
   name "Microsoft Defender for Endpoint"
