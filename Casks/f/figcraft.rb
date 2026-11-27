@@ -1,6 +1,6 @@
 cask "figcraft" do
-  version "0.7.0"
-  sha256 "161283ed574f078ee2a2249c3d07e059bc88e4881c2e08217b57df1eed60225d"
+  version "0.18.1"
+  sha256 "de7bc22fb363c57a350927f5ca009bd444b19993bdeb2863b564e99f3fbae230"
 
   url "https://github.com/storytold/figcraft/releases/download/v#{version}/figcraft-#{version}-macos-universal.dmg"
   name "FigCraft"
