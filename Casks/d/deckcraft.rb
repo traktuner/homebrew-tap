@@ -1,6 +1,6 @@
 cask "deckcraft" do
-  version "0.8.0"
-  sha256 "81ee3158cbb550951faf89888bf7f0ea296fc233593aecfc3f41c7d9dce88542"
+  version "0.19.1"
+  sha256 "a5233f28b031b74edc4a07df2a0068d43b82ccadfdac865f145765d28b2ce746"
 
   url "https://github.com/storytold/deckcraft/releases/download/v#{version}/deckcraft-#{version}-macos-universal.dmg"
   name "DeckCraft"
