@@ -1,6 +1,6 @@
 cask "soundcraft" do
-  version "0.8.0"
-  sha256 "4221c313d25abc1aaca51d1495a19735b5e3c240a6820c566779c6e0b4c35320"
+  version "0.20.1"
+  sha256 "eb1dd392d7c3867b569aa9e08c016427096800016ff33f8f4e0192e43d9e6c0b"
 
   url "https://github.com/storytold/soundcraft/releases/download/v#{version}/soundcraft-#{version}-macos-universal.dmg"
   name "SoundCraft"
