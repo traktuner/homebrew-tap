@@ -1,6 +1,6 @@
 cask "wordcraft" do
-  version "0.8.0"
-  sha256 "9c7c058e4bc0ea3dd4e7f350e934b5e5ff5798723937f382c77478a6978f89e3"
+  version "0.19.1"
+  sha256 "df13cabf63bb2591045ebf6782c17440e7ecee9556550d6dd2affecd983825b2"
 
   url "https://github.com/storytold/wordcraft/releases/download/v#{version}/wordcraft-#{version}-macos-universal.dmg"
   name "WordCraft"
