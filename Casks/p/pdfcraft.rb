@@ -1,6 +1,6 @@
 cask "pdfcraft" do
-  version "0.9.0"
-  sha256 "116738045a68463eb1a465e6eaef2266902aac69aa1a15e4a1c1472c31d8abe9"
+  version "0.22.0"
+  sha256 "ad45ca52a793c7cda1bae1acb6757b5ee12f07bfaec22ce4344e5e5460340634"
 
   url "https://github.com/storytold/pdfcraft/releases/download/v#{version}/pdfcraft-#{version}-macos-universal.dmg"
   name "PdfCraft"
